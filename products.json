@@ -1,0 +1,59 @@
+[
+  {
+    "id": "coke",
+    "nom": "cocaïne",
+    "prix_options": [
+      {"label": "0.5g", "prix": 20},
+      {"label": "1g", "prix": 30}
+    ],
+    "description": "cocaïne colombienne pure a 95%",
+    "photo": "",
+    "video": ""
+  },
+  {
+    "id": "heroïne pure",
+    "nom": "heroïne pure á 100%",
+    "prix_options": [
+      {"label": "1g", "prix": 20},
+      {"label": "20g", "prix": 350}
+    ],
+    "description": "produit hollandais acheter pure non couper",
+    "photo": "",
+    "video": ""
+  },
+  {
+    "id": "heroïne couper 50%",
+    "nom": "heroïne couper 50%",
+    "prix_options": [
+      {"label": "1g", "prix": 10},
+      {"label": "50g", "prix": 450}
+    ],
+    "description": "heroïne couper à 50% de son état initial par des professionnel et avec la meilleur coupe du marché",
+    "photo": "",
+    "video": ""
+  },
+  {
+    "id": "hashish",
+    "nom": "Dry swift 75u",
+    "prix_options": [
+      {"label": "2g", "prix": 10},
+      {"label": "10g", "prix": 50},
+      {"label": "100g", "prix": 400}
+    ],
+    "description": "",
+    "photo": "",
+    "video": ""
+  },
+  {
+    "id": "weed californienne",
+    "nom": "weed californienne",
+    "prix_options": [
+      {"label": "1g", "prix": 10},
+      {"label": "10g", "prix": 90},
+      {"label": "30g", "prix": 250}
+    ],
+    "description": "weed d'exception provenant des meilleur laboratoire californien pourcentage de thc élevé 40%",
+    "photo": "",
+    "video": ""
+  }
+]
