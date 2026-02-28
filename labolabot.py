@@ -295,8 +295,8 @@ def main():
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("fileid", cmd_fileid))
-    app.add_handler(MessageHandler(filters.PHOTO & filters.User(ADMIN_ID), get_photo_id))
-    app.add_handler(MessageHandler(filters.VIDEO & filters.User(ADMIN_ID), get_video_id))
+    app.add_handler(MessageHandler(filters.PHOTO, get_photo_id))
+    app.add_handler(MessageHandler(filters.VIDEO, get_video_id))
     app.add_handler(order_conv)
     app.add_handler(admin_conv)
     app.add_handler(CallbackQueryHandler(accueil_callback, pattern="^accueil$"))
