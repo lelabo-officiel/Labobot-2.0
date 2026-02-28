@@ -12,7 +12,7 @@
   },
   {
     "id": "heroïne pure",
-    "nom": "heroïne pure á 100%",
+    "nom": "heroïne pure 100%",
     "prix_options": [
       {"label": "1g", "prix": 20},
       {"label": "20g", "prix": 350}
