@@ -11,7 +11,7 @@
     "video": "BAACAgQAAxkBAANYaaNt31euqyDvU9n7YY3mndO9FyUAAmgnAAISAxlR7fgKLAABurI1OgQ"
   },
   {
-    "id": "heroïne pure",
+    "id": "heroine_pure",
     "nom": "heroïne pure 100%",
     "prix_options": [
       {"label": "1g", "prix": 20},
@@ -22,7 +22,7 @@
     "video": "BAACAgQAAxkBAANbaaNucBJWFlf2u7LOGy9ZFr3clkkAAmknAAISAxlRDxwTOF6AHmw6BA"
   },
   {
-    "id": "heroïne couper 50%",
+    "id": "heroine_coupe",
     "nom": "heroïne couper 50%",
     "prix_options": [
       {"label": "1g", "prix": 10},
@@ -40,12 +40,12 @@
       {"label": "10g", "prix": 50},
       {"label": "100g", "prix": 400}
     ],
-    "description": "Notre Dry Swift est un hashish issu d’un tamisage à sec avec un filtre de 75 microns, offrant une texture fine et une concentration élevée en trichomes jusqu’a 50% (THC) pour un effet puissant et aromatique. ",
+    "description": "Notre Dry Swift est un hashish issu d'un tamisage à sec avec un filtre de 75 microns, offrant une texture fine et une concentration élevée en trichomes jusqu'a 50% (THC) pour un effet puissant et aromatique.",
     "photo": "AgACAgQAAxkBAANVaaNsxzTdV03bXfcotrun5lxy0AsAAsoNaxsSAxlRTQK68LridwoBAAMCAAN5AAM6BA",
     "video": "BAACAgQAAxkBAANUaaNr8HBuOD0DCS-6V7ytPy_AxJ0AAmcnAAISAxlRuWeWXiAsr0M6BA"
   },
   {
-    "id": "weed californienne",
+    "id": "weed_cali",
     "nom": "weed californienne",
     "prix_options": [
       {"label": "1g", "prix": 10},
