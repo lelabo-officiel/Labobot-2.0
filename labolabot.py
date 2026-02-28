@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-“””
+"""
 🤖 LABOLABOT — Bot Telegram boutique
-“””
+"""
 
 import json
 import logging
