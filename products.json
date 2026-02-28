@@ -7,8 +7,8 @@
       {"label": "1g", "prix": 30}
     ],
     "description": "cocaïne colombienne pure a 95%",
-    "photo": "",
-    "video": ""
+    "photo": "AgACAgQAAxkBAAFDe6Jpo2Upk22JI-Fc6pVr41bEpKB7zQAC8Q1rG5FqGFEBDyliJB4HOAEAAwIAA3kAAzoE",
+    "video": "BAACAgQAAxkBAAE6klJouOaYX-x_LP7VfcVWVCqzJZf2EQACTRoAAq7ryVH_Gv2hKA5P9jYE"
   },
   {
     "id": "heroïne pure",
@@ -18,8 +18,8 @@
       {"label": "20g", "prix": 350}
     ],
     "description": "produit hollandais acheter pure non couper",
-    "photo": "",
-    "video": ""
+    "photo": "AgACAgQAAxkBAAE6knZouOmH77T-AoTglP3EOzh19OKqQgACK8cxG67ryVEyW7tHPLZCGgEAAwIAA3gAAzYE",
+    "video": "BAACAgQAAxkBAAE6knpouOoDS6cKDWt9J889BFhDSqUEHAACURoAAq7ryVFnbBtu2ojBhzYE"
   },
   {
     "id": "heroïne couper 50%",
@@ -29,8 +29,8 @@
       {"label": "50g", "prix": 450}
     ],
     "description": "heroïne couper à 50% de son état initial par des professionnel et avec la meilleur coupe du marché",
-    "photo": "",
-    "video": ""
+    "photo": "AgACAgQAAxkBAAE6knxouOsBmqChDSXRxqziDcrgKDNIWwACLMcxG67ryVG4Agkjt3EHYwEAAwIAA3kAAzYE",
+    "video": "BAACAgQAAxkBAAE6kn9ouOuStD_fFFRnhm1tMOvfZgABh0cAAlIaAAKu68lRfV9DMvYHX5U2BA"
   },
   {
     "id": "hashish",
@@ -40,9 +40,9 @@
       {"label": "10g", "prix": 50},
       {"label": "100g", "prix": 400}
     ],
-    "description": "",
-    "photo": "",
-    "video": ""
+    "description": "Notre Dry Swift est un hashish issu d’un tamisage à sec avec un filtre de 75 microns, offrant une texture fine et une concentration élevée en trichomes jusqu’a 50% (THC) pour un effet puissant et aromatique. ",
+    "photo": "AgACAgQAAxkBAAFDe9lpo2gJb4_xnPBvqeuQRGRwRRGGxAAC8w1rG5FqGFHiVn3g4fgzpgEAAwIAA3kAAzoE",
+    "video": "BAACAgQAAxkBAAFDe-Fpo2im0QTtggzm2xyWLZiB2OTsTwACUBwAApFqGFHzu8EKq0GuazoE"
   },
   {
     "id": "weed californienne",
@@ -53,7 +53,7 @@
       {"label": "30g", "prix": 250}
     ],
     "description": "weed d'exception provenant des meilleur laboratoire californien pourcentage de thc élevé 40%",
-    "photo": "",
-    "video": ""
+    "photo": "AgACAgQAAxkBAAE6kpVouO2TQX6lEORkDYcKSPoYRalHbgACMMcxG67ryVHvYOqtSbnlnwEAAwIAA3kAAzYE",
+    "video": "BAACAgQAAxkBAAE6kqFouO5W53di04rAQBWlHpk5AAHCV-wAAlQaAAKu68lR66qltemYwoE2BA"
   }
 ]
