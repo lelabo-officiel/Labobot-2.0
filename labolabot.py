@@ -157,7 +157,7 @@ async def start_order(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not cart:
         await query.answer("Ton panier est vide !", show_alert=True)
         return
-    await query.edit_message_text("Finaliser la commande\n\nEnvoie-moi ton *adresse de livraison complète* :", parse_mode="Markdown")
+    await query.edit_message_text("Finaliser la commande\n\nEnvoie-moi ton *adresse de livraison complete* :", parse_mode="Markdown")
     return ASK_ADDRESS
 
 async def receive_address(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -198,6 +198,11 @@ async def show_contact(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     await query.edit_message_text("*Contact*\n\n" + ADMIN_USER + "\n\n10h00 - 00h00 - 7j/7", parse_mode="Markdown", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Contacter", url="https://t.me/labomoula25")], [InlineKeyboardButton("Retour", callback_data="accueil")]]))
+
+async def cmd_fileid(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.effective_user.id != ADMIN_ID:
+        return
+    await update.message.reply_text("Envoie-moi maintenant ta photo ou video et je te donnerai le file_id !")
 
 async def get_photo_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_ID:
@@ -289,6 +294,9 @@ def main():
     )
 
     app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("fileid", cmd_fileid))
+    app.add_handler(MessageHandler(filters.PHOTO & filters.User(ADMIN_ID), get_photo_id))
+    app.add_handler(MessageHandler(filters.VIDEO & filters.User(ADMIN_ID), get_video_id))
     app.add_handler(order_conv)
     app.add_handler(admin_conv)
     app.add_handler(CallbackQueryHandler(accueil_callback, pattern="^accueil$"))
@@ -300,8 +308,6 @@ def main():
     app.add_handler(CallbackQueryHandler(clear_cart, pattern="^vider_panier$"))
     app.add_handler(CallbackQueryHandler(show_horaires, pattern="^horaires$"))
     app.add_handler(CallbackQueryHandler(show_contact, pattern="^contact$"))
-    app.add_handler(MessageHandler(filters.PHOTO, get_photo_id))
-    app.add_handler(MessageHandler(filters.VIDEO, get_video_id))
 
     print("Labolabot demarre !")
     app.run_polling()
