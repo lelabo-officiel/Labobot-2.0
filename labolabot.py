@@ -59,14 +59,14 @@ async def show_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     products = load_products()
     keyboard = []
     for p in products:
-        keyboard.append([InlineKeyboardButton(p["nom"], callback_data="produit_" + p["id"])])
+        keyboard.append([InlineKeyboardButton(p["nom"], callback_data="produit|" + p["id"])])
     keyboard.append([InlineKeyboardButton("Retour", callback_data="accueil")])
     await query.edit_message_text("Notre catalogue :\n\nChoisis un produit :", parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
 
 async def show_product(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
-    prod_id = query.data.replace("produit_", "")
+    prod_id = query.data.split("|")[1]
     products = load_products()
     p = next((x for x in products if x["id"] == prod_id), None)
     if not p:
@@ -75,13 +75,13 @@ async def show_product(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = []
     row = []
     for i, opt in enumerate(p["prix_options"]):
-        row.append(InlineKeyboardButton(opt["label"] + " - " + str(opt["prix"]) + "EUR", callback_data="add_" + p["id"] + "_" + str(i)))
+        row.append(InlineKeyboardButton(opt["label"] + " - " + str(opt["prix"]) + "EUR", callback_data="add|" + p["id"] + "|" + str(i)))
         if len(row) == 2:
             keyboard.append(row)
             row = []
     if row:
         keyboard.append(row)
-    keyboard.append([InlineKeyboardButton("Voir la video", callback_data="video_" + p["id"])])
+    keyboard.append([InlineKeyboardButton("Voir la video", callback_data="video|" + p["id"])])
     keyboard.append([InlineKeyboardButton("Mon panier", callback_data="panier"), InlineKeyboardButton("Retour", callback_data="menu")])
     desc = p.get("description") or "Aucune description."
     caption = "*" + p["nom"] + "*\n\n" + desc + "\n\nChoisis ton grammage :"
@@ -97,7 +97,7 @@ async def show_product(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def show_video(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
-    prod_id = query.data.replace("video_", "")
+    prod_id = query.data.split("|")[1]
     products = load_products()
     p = next((x for x in products if x["id"] == prod_id), None)
     if p and p.get("video"):
@@ -116,7 +116,7 @@ def cart_total(cart):
 async def add_to_cart(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
-    parts = query.data.split("_")
+    parts = query.data.split("|")
     prod_id = parts[1]
     opt_idx = int(parts[2])
     products = load_products()
@@ -224,7 +224,7 @@ async def admin_panel(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Acces refuse.")
         return ConversationHandler.END
     products = load_products()
-    keyboard = [[InlineKeyboardButton(p["nom"], callback_data="edit_" + p["id"])] for p in products]
+    keyboard = [[InlineKeyboardButton(p["nom"], callback_data="edit|" + p["id"])] for p in products]
     keyboard.append([InlineKeyboardButton("Annuler", callback_data="cancel_admin")])
     await update.message.reply_text("*Panel Admin*\nChoisis le produit a modifier :", parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
     return ADMIN_SELECT_PROD
@@ -235,7 +235,7 @@ async def admin_select_product(update: Update, context: ContextTypes.DEFAULT_TYP
     if query.data == "cancel_admin":
         await query.edit_message_text("Admin annule.")
         return ConversationHandler.END
-    prod_id = query.data.replace("edit_", "")
+    prod_id = query.data.split("|")[1]
     context.user_data["edit_prod_id"] = prod_id
     products = load_products()
     p = next((x for x in products if x["id"] == prod_id), None)
@@ -286,7 +286,7 @@ def main():
     admin_conv = ConversationHandler(
         entry_points=[CommandHandler("admin", admin_panel)],
         states={
-            ADMIN_SELECT_PROD: [CallbackQueryHandler(admin_select_product)],
+            ADMIN_SELECT_PROD: [CallbackQueryHandler(admin_select_product, pattern="^edit")],
             ADMIN_EDIT_FIELD: [CallbackQueryHandler(admin_choose_field)],
             ADMIN_EDIT_VALUE: [MessageHandler(filters.TEXT & ~filters.COMMAND, admin_set_value)],
         },
@@ -301,9 +301,9 @@ def main():
     app.add_handler(admin_conv)
     app.add_handler(CallbackQueryHandler(accueil_callback, pattern="^accueil$"))
     app.add_handler(CallbackQueryHandler(show_menu, pattern="^menu$"))
-    app.add_handler(CallbackQueryHandler(show_product, pattern="^produit_"))
-    app.add_handler(CallbackQueryHandler(show_video, pattern="^video_"))
-    app.add_handler(CallbackQueryHandler(add_to_cart, pattern="^add_"))
+    app.add_handler(CallbackQueryHandler(show_product, pattern="^produit\\|"))
+    app.add_handler(CallbackQueryHandler(show_video, pattern="^video\\|"))
+    app.add_handler(CallbackQueryHandler(add_to_cart, pattern="^add\\|"))
     app.add_handler(CallbackQueryHandler(show_cart, pattern="^panier$"))
     app.add_handler(CallbackQueryHandler(clear_cart, pattern="^vider_panier$"))
     app.add_handler(CallbackQueryHandler(show_horaires, pattern="^horaires$"))
