@@ -5,7 +5,7 @@ import urllib.parse
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, ConversationHandler, filters, ContextTypes
 
-TOKEN = "8705132613:AAG17bUIEz8cKr0PV50BGipf2yaJiQhbQ9c"
+TOKEN = "8705132613:AAF7fD0dLzfkdO5OMf1F0WxKgoBsT8WU2c4"
 ADMIN_ID = 6023169098
 ADMIN_USER = "@labomoula25"
 PRODUCTS_FILE = "products.json"
@@ -73,6 +73,10 @@ async def accueil_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         await send_accueil(query.message, context, edit=True)
     except Exception:
+        try:
+            await query.message.delete()
+        except Exception:
+            pass
         await send_accueil(query.message, context, edit=False)
 
 async def show_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
