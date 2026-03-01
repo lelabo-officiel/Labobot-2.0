@@ -28,28 +28,37 @@ def save_products(products):
     with open(PRODUCTS_FILE, "w", encoding="utf-8") as f:
         json.dump(products, f, ensure_ascii=False, indent=2)
 
+def menu_keyboard():
+    return InlineKeyboardMarkup([
+        [InlineKeyboardButton("🛍️  Voir le catalogue", callback_data="menu")],
+        [InlineKeyboardButton("🛒  Mon panier", callback_data="panier"), InlineKeyboardButton("🕐  Horaires", callback_data="horaires")],
+        [InlineKeyboardButton("💬  Nous contacter", callback_data="contact")],
+    ])
+
+async def send_accueil(message, context, edit=False):
+    text = (
+        "╔══════════════════════╗\n"
+        "        *LABOLABOT* 🌿\n"
+        "╚══════════════════════╝\n\n"
+        "Bienvenue sur la boutique *Le Labo* ✨\n\n"
+        "🔥 Produits premium — qualité garantie\n"
+        "⚡️ Livraison rapide & discrète\n"
+        "💎 Service client 7j/7\n\n"
+        "_Que puis-je faire pour toi ?_"
+    )
+    if edit:
+        await message.edit_text(text, parse_mode="Markdown", reply_markup=menu_keyboard())
+    else:
+        await message.reply_text(text, parse_mode="Markdown", reply_markup=menu_keyboard())
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data.clear()
-    keyboard = [
-        [InlineKeyboardButton("Voir le menu", callback_data="menu")],
-        [InlineKeyboardButton("Mon panier", callback_data="panier"), InlineKeyboardButton("Horaires", callback_data="horaires")],
-        [InlineKeyboardButton("Contact", callback_data="contact")],
-    ]
-    await update.message.reply_text(
-        "Bienvenue sur *Labolabot* !\n\nCommande tes produits facilement",
-        parse_mode="Markdown",
-        reply_markup=InlineKeyboardMarkup(keyboard),
-    )
+    await send_accueil(update.message, context)
 
 async def accueil_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
-    keyboard = [
-        [InlineKeyboardButton("Voir le menu", callback_data="menu")],
-        [InlineKeyboardButton("Mon panier", callback_data="panier"), InlineKeyboardButton("Horaires", callback_data="horaires")],
-        [InlineKeyboardButton("Contact", callback_data="contact")],
-    ]
-    await query.edit_message_text("Menu principal", parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
+    await send_accueil(query.message, context, edit=True)
 
 async def show_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -57,9 +66,15 @@ async def show_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     products = load_products()
     keyboard = []
     for p in products:
-        keyboard.append([InlineKeyboardButton(p["nom"], callback_data="produit|" + p["id"])])
-    keyboard.append([InlineKeyboardButton("Retour", callback_data="accueil")])
-    await query.edit_message_text("Notre catalogue :\n\nChoisis un produit :", parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
+        keyboard.append([InlineKeyboardButton("🌿  " + p["nom"], callback_data="produit|" + p["id"])])
+    keyboard.append([InlineKeyboardButton("🏠  Accueil", callback_data="accueil")])
+    await query.edit_message_text(
+        "🛍️ *Notre Catalogue*\n\n"
+        "Choisis ton produit ci-dessous :\n\n"
+        "_Tous nos produits sont soigneusement sélectionnés_",
+        parse_mode="Markdown",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
 
 async def show_product(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -68,21 +83,26 @@ async def show_product(update: Update, context: ContextTypes.DEFAULT_TYPE):
     products = load_products()
     p = next((x for x in products if x["id"] == prod_id), None)
     if not p:
-        await query.edit_message_text("Produit introuvable.")
+        await query.edit_message_text("Produit introuvable.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 Retour", callback_data="menu")]]))
         return
     keyboard = []
     row = []
     for i, opt in enumerate(p["prix_options"]):
-        row.append(InlineKeyboardButton(opt["label"] + " - " + str(opt["prix"]) + "EUR", callback_data="add|" + p["id"] + "|" + str(i)))
+        row.append(InlineKeyboardButton("📦 " + opt["label"] + " — " + str(opt["prix"]) + "€", callback_data="add|" + p["id"] + "|" + str(i)))
         if len(row) == 2:
             keyboard.append(row)
             row = []
     if row:
         keyboard.append(row)
-    keyboard.append([InlineKeyboardButton("Voir la video", callback_data="video|" + p["id"])])
-    keyboard.append([InlineKeyboardButton("Mon panier", callback_data="panier"), InlineKeyboardButton("Retour", callback_data="menu")])
+    keyboard.append([InlineKeyboardButton("🎬  Voir la vidéo", callback_data="video|" + p["id"])])
+    keyboard.append([InlineKeyboardButton("🛒  Mon panier", callback_data="panier"), InlineKeyboardButton("🔙  Retour", callback_data="menu")])
     desc = p.get("description") or "Aucune description."
-    caption = "*" + p["nom"] + "*\n\n" + desc + "\n\nChoisis ton grammage :"
+    caption = (
+        "✨ *" + p["nom"].upper() + "*\n\n"
+        + desc + "\n\n"
+        "━━━━━━━━━━━━━━━━\n"
+        "📦 *Choisis ton grammage :*"
+    )
     if p.get("photo"):
         try:
             await query.message.reply_photo(photo=p["photo"], caption=caption, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
@@ -99,9 +119,9 @@ async def show_video(update: Update, context: ContextTypes.DEFAULT_TYPE):
     products = load_products()
     p = next((x for x in products if x["id"] == prod_id), None)
     if p and p.get("video"):
-        await query.message.reply_video(video=p["video"], caption=p["nom"])
+        await query.message.reply_video(video=p["video"], caption="🎬 *" + p["nom"] + "*", parse_mode="Markdown")
     else:
-        await query.answer("Video non disponible.", show_alert=True)
+        await query.answer("Vidéo non disponible pour ce produit.", show_alert=True)
 
 def get_cart(context):
     if "cart" not in context.user_data:
@@ -113,7 +133,6 @@ def cart_total(cart):
 
 async def add_to_cart(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-    await query.answer()
     parts = query.data.split("|")
     prod_id = parts[1]
     opt_idx = int(parts[2])
@@ -125,28 +144,46 @@ async def add_to_cart(update: Update, context: ContextTypes.DEFAULT_TYPE):
     opt = p["prix_options"][opt_idx]
     cart = get_cart(context)
     cart.append({"nom": p["nom"], "label": opt["label"], "prix": opt["prix"]})
-    await query.answer(p["nom"] + " " + opt["label"] + " ajoute !", show_alert=True)
+    await query.answer("✅ " + p["nom"] + " " + opt["label"] + " ajouté au panier !", show_alert=True)
 
 async def show_cart(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     cart = get_cart(context)
     if not cart:
-        await query.edit_message_text("Ton panier est vide.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Voir le menu", callback_data="menu")], [InlineKeyboardButton("Accueil", callback_data="accueil")]]))
+        await query.edit_message_text(
+            "🛒 *Ton panier est vide*\n\n_Ajoute des produits pour commencer !_",
+            parse_mode="Markdown",
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("🛍️  Voir le catalogue", callback_data="menu")],
+                [InlineKeyboardButton("🏠  Accueil", callback_data="accueil")]
+            ])
+        )
         return
-    lines = ["*Ton panier :*\n"]
+    lines = ["🛒 *Ton panier :*\n", "━━━━━━━━━━━━━━━━"]
     for i, item in enumerate(cart):
-        lines.append(str(i+1) + ". " + item["nom"] + " " + item["label"] + " - " + str(item["prix"]) + "EUR")
+        lines.append("▪️ " + item["nom"] + " " + item["label"] + " — *" + str(item["prix"]) + "€*")
     total = cart_total(cart)
-    lines.append("\n*Total : " + str(total) + "EUR*")
-    keyboard = [[InlineKeyboardButton("Commander", callback_data="commander")], [InlineKeyboardButton("Vider le panier", callback_data="vider_panier")], [InlineKeyboardButton("Continuer", callback_data="menu")]]
+    lines.append("━━━━━━━━━━━━━━━━")
+    lines.append("💰 *Total : " + str(total) + "€*")
+    keyboard = [
+        [InlineKeyboardButton("✅  Commander maintenant", callback_data="commander")],
+        [InlineKeyboardButton("🗑  Vider le panier", callback_data="vider_panier")],
+        [InlineKeyboardButton("🛍️  Continuer", callback_data="menu"), InlineKeyboardButton("🏠  Accueil", callback_data="accueil")]
+    ]
     await query.edit_message_text("\n".join(lines), parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
 
 async def clear_cart(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     context.user_data["cart"] = []
-    await query.edit_message_text("Panier vide !", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Voir le menu", callback_data="menu")]]))
+    await query.edit_message_text(
+        "🗑 Panier vidé !",
+        reply_markup=InlineKeyboardMarkup([
+            [InlineKeyboardButton("🛍️  Voir le catalogue", callback_data="menu")],
+            [InlineKeyboardButton("🏠  Accueil", callback_data="accueil")]
+        ])
+    )
 
 async def start_order(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -155,7 +192,12 @@ async def start_order(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not cart:
         await query.answer("Ton panier est vide !", show_alert=True)
         return
-    await query.edit_message_text("Finaliser la commande\n\nEnvoie-moi ton *adresse de livraison complete* :", parse_mode="Markdown")
+    await query.edit_message_text(
+        "📦 *Finaliser la commande*\n\n"
+        "Envoie-moi ton *adresse de livraison complète* :\n\n"
+        "_Ex: 12 rue de la Paix, Paris 75001_",
+        parse_mode="Markdown"
+    )
     return ASK_ADDRESS
 
 async def receive_address(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -165,8 +207,15 @@ async def receive_address(update: Update, context: ContextTypes.DEFAULT_TYPE):
     total = cart_total(cart)
     prenom = user.first_name or "N/A"
     pseudo = "@" + user.username if user.username else "Pas de pseudo"
-    lines = ["- " + item["nom"] + " " + item["label"] + " - " + str(item["prix"]) + "EUR" for item in cart]
-    admin_msg = "*NOUVELLE COMMANDE*\n\nPrenom : " + prenom + "\nPseudo : " + pseudo + "\nAdresse : " + address + "\n\n" + "\n".join(lines) + "\n\n*Total : " + str(total) + "EUR*"
+    lines = ["— " + item["nom"] + " " + item["label"] + " : " + str(item["prix"]) + "€" for item in cart]
+    admin_msg = (
+        "🔔 *NOUVELLE COMMANDE*\n\n"
+        "👤 Prénom : " + prenom + "\n"
+        "📱 Pseudo : " + pseudo + "\n"
+        "📍 Adresse : " + address + "\n\n"
+        + "\n".join(lines) + "\n\n"
+        "💰 *Total : " + str(total) + "€*"
+    )
     msg_encode = urllib.parse.quote("COMMANDE\nPrenom: " + prenom + "\nPseudo: " + pseudo + "\nAdresse: " + address + "\n" + "\n".join(lines) + "\nTOTAL: " + str(total) + "EUR")
     tme_link = "https://t.me/labomoula25?text=" + msg_encode
     try:
@@ -174,28 +223,63 @@ async def receive_address(update: Update, context: ContextTypes.DEFAULT_TYPE):
         admin_notified = True
     except Exception:
         admin_notified = False
-    summary = "*Recapitulatif :*\n\n" + "\n".join(lines) + "\n\n*Total : " + str(total) + "EUR*\n*Adresse :* " + address + "\n\n"
+    summary = (
+        "✅ *Commande confirmée !*\n\n"
+        + "\n".join(lines) + "\n\n"
+        "💰 *Total : " + str(total) + "€*\n"
+        "📍 *Adresse :* " + address + "\n\n"
+    )
     if admin_notified:
-        client_text = summary + "*Commande transmise !*\n\nOn te contacte via " + ADMIN_USER + "\n\n[Envoyer ma commande directement](" + tme_link + ")"
+        client_text = summary + "Notre équipe va te contacter très rapidement via " + ADMIN_USER + " 🚀\n\n[📩 Envoyer ma commande directement](" + tme_link + ")"
     else:
-        client_text = summary + "*Total : " + str(total) + "EUR*\n\n[Envoyer ma commande](" + tme_link + ")\n\nOu contacte : " + ADMIN_USER
-    await update.message.reply_text(client_text, parse_mode="Markdown", disable_web_page_preview=True, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Retour accueil", callback_data="accueil")]]))
+        client_text = summary + "[📩 Envoyer ma commande](" + tme_link + ")\n\nOu contacte-nous : " + ADMIN_USER
+    await update.message.reply_text(
+        client_text,
+        parse_mode="Markdown",
+        disable_web_page_preview=True,
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🏠  Retour à l'accueil", callback_data="accueil")]])
+    )
     context.user_data["cart"] = []
     return ConversationHandler.END
 
 async def cancel_order(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Commande annulee.")
+    await update.message.reply_text("Commande annulée.")
     return ConversationHandler.END
 
 async def show_horaires(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
-    await query.edit_message_text("*Horaires d'ouverture*\n\n10h00 - 00h00\n7 jours / 7", parse_mode="Markdown", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Retour", callback_data="accueil")]]))
+    await query.edit_message_text(
+        "🕐 *Horaires d'ouverture*\n\n"
+        "━━━━━━━━━━━━━━━━\n"
+        "🟢 Tous les jours\n"
+        "⏰ 10h00 — 00h00\n"
+        "━━━━━━━━━━━━━━━━\n\n"
+        "_Disponible 7j/7 pour toutes tes commandes_",
+        parse_mode="Markdown",
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙  Retour", callback_data="accueil")]])
+    )
 
 async def show_contact(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
-    await query.edit_message_text("*Contact*\n\n" + ADMIN_USER + "\n\n10h00 - 00h00 - 7j/7", parse_mode="Markdown", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Contacter", url="https://t.me/labomoula25")], [InlineKeyboardButton("Retour", callback_data="accueil")]]))
+    await query.edit_message_text(
+        "💬 *Nous contacter*\n\n"
+        "━━━━━━━━━━━━━━━━\n"
+        "👤 " + ADMIN_USER + "\n"
+        "⏰ Disponible 10h — 00h\n"
+        "📅 7 jours sur 7\n"
+        "━━━━━━━━━━━━━━━━\n\n"
+        "_On te répond rapidement !_ ⚡️",
+        parse_mode="Markdown",
+        reply_markup=InlineKeyboardMarkup([
+            [InlineKeyboardButton("💬  Envoyer un message", url="https://t.me/labomoula25")],
+            [InlineKeyboardButton("🔙  Retour", callback_data="accueil")]
+        ])
+    )
+
+async def fallback_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await send_accueil(update.message, context)
 
 async def cmd_fileid(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_ID:
@@ -306,6 +390,7 @@ def main():
     app.add_handler(CallbackQueryHandler(clear_cart, pattern="^vider_panier$"))
     app.add_handler(CallbackQueryHandler(show_horaires, pattern="^horaires$"))
     app.add_handler(CallbackQueryHandler(show_contact, pattern="^contact$"))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, fallback_message))
 
     print("Labolabot demarre !")
     app.run_polling()
