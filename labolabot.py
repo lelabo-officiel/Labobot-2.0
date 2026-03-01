@@ -5,7 +5,7 @@ import urllib.parse
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, ConversationHandler, filters, ContextTypes
 
-TOKEN = "8705132613:AAG3IGmVwQAHmrplwRLkVMkjBVcPfXSV7Js"
+TOKEN = "7459322476:AAF6hf4tD7btYXUQuIX2VHC0q4_o7dz-F0E:"
 ADMIN_ID = 6023169098
 ADMIN_USER = "@labomoula25"
 PRODUCTS_FILE = "products.json"
