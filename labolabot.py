@@ -5,7 +5,7 @@ import urllib.parse
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, ConversationHandler, filters, ContextTypes
 
-TOKEN = "8705132613:AAF7fD0dLzfkdO5OMf1F0WxKgoBsT8WU2c4"
+TOKEN = "8705132613:AAG9XfUonDB9NHbjQvCy7Gt_TGsO_l827CI"
 ADMIN_ID = 6023169098
 ADMIN_USER = "@labomoula25"
 PRODUCTS_FILE = "products.json"
@@ -103,14 +103,14 @@ async def show_product(update: Update, context: ContextTypes.DEFAULT_TYPE):
     products = load_products()
     p = next((x for x in products if x["id"] == prod_id), None)
     if not p:
-        await query.edit_message_text("Produit introuvable.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 Retour", callback_data="menu")]]))
+        await query.edit_message_text("Produit introuvable.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🏠  Accueil", callback_data="accueil")]]))
         return
     emoji = get_emoji(prod_id)
     keyboard = []
     for i, opt in enumerate(p["prix_options"]):
         keyboard.append([InlineKeyboardButton(emoji + "  " + opt["label"] + " — " + str(opt["prix"]) + "€  →  Ajouter au panier", callback_data="add|" + p["id"] + "|" + str(i))])
     keyboard.append([InlineKeyboardButton("🎬  Voir la vidéo", callback_data="video|" + p["id"])])
-    keyboard.append([InlineKeyboardButton("🔙  Retour catalogue", callback_data="menu")])
+    keyboard.append([InlineKeyboardButton("🏠  Accueil", callback_data="accueil")])
     desc = p.get("description") or "Aucune description."
     caption = (
         emoji + " *" + p["nom"].upper() + "*\n"
