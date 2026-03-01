@@ -1,10 +1,6 @@
-#!/usr/bin/env python3
-"""
-🤖 LABOLABOT — Bot Telegram boutique
-"""
-
 import json
 import logging
+import os
 import urllib.parse
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, ConversationHandler, filters, ContextTypes
@@ -23,6 +19,8 @@ logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", level=lo
 logger = logging.getLogger(__name__)
 
 def load_products():
+    logger.info("Chemin actuel: " + os.getcwd())
+    logger.info("Fichiers: " + str(os.listdir(".")))
     with open(PRODUCTS_FILE, "r", encoding="utf-8") as f:
         return json.load(f)
 
@@ -90,8 +88,8 @@ async def show_product(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.message.reply_photo(photo=p["photo"], caption=caption, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
             await query.delete_message()
             return
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error("Erreur photo: " + str(e))
     await query.edit_message_text(caption, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(keyboard))
 
 async def show_video(update: Update, context: ContextTypes.DEFAULT_TYPE):
