@@ -4,15 +4,15 @@
     "nom": "cocaïne",
     "prix_options": [
       {"label": "0.5g", "prix": 20},
-      {"label": "1g", "prix": 40}
+      {"label": "1g", "prix": 30}
     ],
     "description": "cocaïne colombienne pure a 95%",
     "photo": "AgACAgQAAxkBAANWaaNtEpHbzqEl0XT1knEYGiVgY-wAAssNaxsSAxlRFkmYJK4icK8BAAMCAAN5AAM6BA",
     "video": "BAACAgQAAxkBAANYaaNt31euqyDvU9n7YY3mndO9FyUAAmgnAAISAxlR7fgKLAABurI1OgQ"
   },
   {
-    "id": "heroine_pure",
-    "nom": "heroïne pure 100%",
+    "id": "heroine_pure (indispo)",
+    "nom": "heroïne pure 100% (indispo)",
     "prix_options": [
       {"label": "1g", "prix": 20},
       {"label": "20g", "prix": 350}
@@ -22,8 +22,8 @@
     "video": "BAACAgQAAxkBAANbaaNucBJWFlf2u7LOGy9ZFr3clkkAAmknAAISAxlRDxwTOF6AHmw6BA"
   },
   {
-    "id": "heroine_coupe",
-    "nom": "heroïne couper 50%",
+    "id": "heroine_coupe (indispo)",
+    "nom": "heroïne couper 50% (indispo)",
     "prix_options": [
       {"label": "1g", "prix": 10},
       {"label": "50g", "prix": 450}
