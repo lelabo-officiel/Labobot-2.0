@@ -11,8 +11,8 @@
     "video": "BAACAgQAAxkBAANYaaNt31euqyDvU9n7YY3mndO9FyUAAmgnAAISAxlR7fgKLAABurI1OgQ"
   },
   {
-    "id": "heroine_pure (indispo)",
-    "nom": "heroïne pure 100% (indispo)",
+    "id": "heroine_pure",
+    "nom": "heroïne pure 100% ",
     "prix_options": [
       {"label": "1g", "prix": 20},
       {"label": "20g", "prix": 350}
@@ -22,8 +22,8 @@
     "video": "BAACAgQAAxkBAANbaaNucBJWFlf2u7LOGy9ZFr3clkkAAmknAAISAxlRDxwTOF6AHmw6BA"
   },
   {
-    "id": "heroine_coupe (indispo)",
-    "nom": "heroïne couper 50% (indispo)",
+    "id": "heroine_coupe ",
+    "nom": "heroïne couper 50% ",
     "prix_options": [
       {"label": "1g", "prix": 10},
       {"label": "50g", "prix": 450}
