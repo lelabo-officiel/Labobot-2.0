@@ -11,6 +11,17 @@
     "video": "BAACAgQAAxkBAANYaaNt31euqyDvU9n7YY3mndO9FyUAAmgnAAISAxlR7fgKLAABurI1OgQ"
   },
   {
+    "id": "heroine_iranienne",
+    "nom": "heroïne iranienne pure 100% ",
+    "prix_options": [
+      {"label": "1g", "prix": 30},
+      {"label": "20g", "prix": 550}
+    ],
+    "description": "produit iranien importer pure non couper d'une qualité exceptionnel jamais égalé en france",
+    "photo": "",
+    "video": ""
+  },
+  {
     "id": "heroine_pure",
     "nom": "heroïne pure 100% ",
     "prix_options": [
