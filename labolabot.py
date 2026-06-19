@@ -20,8 +20,6 @@ logger = logging.getLogger(__name__)
 
 PRODUCT_EMOJIS = {
     "coke": "❄️",
-    "heroine_pure": "💉",
-    "heroine_coupe": "💉",
     "hashish": "🟡",
     "weed_cali": "🌿",
 }
