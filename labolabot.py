@@ -51,7 +51,6 @@ async def send_accueil(message, context, edit=False):
         "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n\n"
         "Bienvenue ✨\n\n"
         "❄️  Cocaïne colombienne pure\n"
-        "💉  Héroïne hollandaise\n"
         "🌿  Weed californienne\n"
         "🟡  Hashish premium\n\n"
         "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n"
