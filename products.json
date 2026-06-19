@@ -11,39 +11,6 @@
     "video": "BAACAgQAAxkBAANYaaNt31euqyDvU9n7YY3mndO9FyUAAmgnAAISAxlR7fgKLAABurI1OgQ"
   },
   {
-    "id": "heroine_iranienne",
-    "nom": "heroïne iranienne pure 100% ",
-    "prix_options": [
-      {"label": "1g", "prix": 30},
-      {"label": "20g", "prix": 550}
-    ],
-    "description": "produit iranien importer pure non couper d'une qualité exceptionnel jamais égalé en france",
-    "photo": "AgACAgQAAxkBAAIuy2oTl1Aia3d6GdBWjSPE5_kCYkdNAAKDD2sbExCZUL6RgeVfmk0nAQADAgADeQADOwQ",
-    "video": "BAACAgQAAxkBAAIuymoTloRMP5RJjtKFY8AYXjnVAyb4AAIoIQACExCZUI8JhKHsMgACOwQ"
-  },
-  {
-    "id": "heroine_pure",
-    "nom": "heroïne pure 100% ",
-    "prix_options": [
-      {"label": "1g", "prix": 20},
-      {"label": "20g", "prix": 350}
-    ],
-    "description": "produit hollandais acheter pure non couper",
-    "photo": "AgACAgQAAxkBAANZaaNuVBxNhGQLdc7WI76MWHncTy0AAswNaxsSAxlRaA4TlTEiVoUBAAMCAAN4AAM6BA",
-    "video": "BAACAgQAAxkBAANbaaNucBJWFlf2u7LOGy9ZFr3clkkAAmknAAISAxlRDxwTOF6AHmw6BA"
-  },
-  {
-    "id": "heroine_coupe ",
-    "nom": "heroïne couper 50% ",
-    "prix_options": [
-      {"label": "1g", "prix": 10},
-      {"label": "50g", "prix": 450}
-    ],
-    "description": "heroïne couper à 50% de son état initial par des professionnel et avec la meilleur coupe du marché",
-    "photo": "AgACAgQAAxkBAANeaaNvN5wkj0RerNldFvWmXzz0zGAAAs0NaxsSAxlR-_mZoo65IioBAAMCAAN5AAM6BA",
-    "video": "BAACAgQAAxkBAANfaaNveiXxI2p-vnsoGyc_n6H5tF4AAmonAAISAxlRV3A2gUWF6aU6BA"
-  },
-  {
     "id": "hashish",
     "nom": "Static 90u",
     "prix_options": [
@@ -55,16 +22,4 @@
     "photo": "AgACAgQAAxkBAAIePWnU9b1nrIqOlLvaCRB6UcHaWRD6AAJKDWsbCE2pUgv3rVs4mW2tAQADAgADeQADOwQ",
     "video": "BAACAgQAAxkBAAIeTGnU-E63MSAr0aN8S4kCja414a2-AAJeHgACCE2pUgI9bNB49bQ1OwQ"
   },
-  {
-    "id": "weed_cali (indispo)",
-    "nom": "weed californienne (indispo)",
-    "prix_options": [
-      {"label": "1g", "prix": 10},
-      {"label": "10g", "prix": 90},
-      {"label": "30g", "prix": 250}
-    ],
-    "description": "weed d'exception provenant des meilleur laboratoire californien pourcentage de thc élevé 40%",
-    "photo": "AgACAgQAAxkBAANgaaNvs_hyBZs4XxUzBgr_ume_j5kAAs8NaxsSAxlR7FJ4DVtettYBAAMCAAN5AAM6BA",
-    "video": "BAACAgQAAxkBAANhaaNv6gbxSTMg0BVMuN7r71ye8aEAAmsnAAISAxlRWAABlnrojszEOgQ"
-  }
 ]
